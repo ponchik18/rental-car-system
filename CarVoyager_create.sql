@@ -28,6 +28,7 @@ CREATE TABLE cars (
     status nvarchar(30)  NOT NULL,
     number_of_seats int  NOT NULL,
     engine_power int  NOT NULL,
+    mileage int NOT NULL,
     year int  NOT NULL,
     UNIQUE INDEX cars_ak_name (model),
     CONSTRAINT cars_pk PRIMARY KEY (id)
