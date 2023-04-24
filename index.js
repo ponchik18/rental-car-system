@@ -1,9 +1,16 @@
 const express = require('express');
 const ejs = require('ejs');
 const session = require('express-session');
+const debug = require('debug');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const homeRouter = require('./routes/homeRouter');
+const detailRouter = require('./routes/detailRouter');
+const carListRoute = require('./routes/carListRouter');
+const bookingRouter = require('./routes/bookingRouter');
 const app = express();
 
+//Middleware
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -14,9 +21,12 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false },
 }));
+app.use(morgan('tiny'));
 
-app.get('/', (req, res)=>{
-    res.render('pages/index');
-});
+//Routers
+app.use( homeRouter);
+app.use(detailRouter);
+app.use(carListRoute);
+app.use(bookingRouter);
 
 app.listen(5050);

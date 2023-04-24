@@ -1,7 +1,7 @@
-const Car = require('../models/carModel');
+const Car = require("../models/carModel");
 
-exports.renderHome = (req,res)=>{
-    Car.getAllCar(true, (error, results)=>{
+exports.renderCarList = (req, res)=>{
+    Car.getAllCar(false, (error, results)=>{
 
         if (error) {
             console.log('Error in reading carList.ejs: ', error);
@@ -9,7 +9,7 @@ exports.renderHome = (req,res)=>{
         }
         else{
             console.log(results);
-            res.render('../views/pages/index', {results});
+            res.render('../views/pages/carList', {results});
         }
     });
 }

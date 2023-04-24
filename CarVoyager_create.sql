@@ -12,7 +12,7 @@ CREATE TABLE brands (
     CONSTRAINT brands_pk PRIMARY KEY (id)
 );
 
--- Table: cars
+-- Table: carList.ejs
 CREATE TABLE cars (
     id int  NOT NULL AUTO_INCREMENT,
     brands_id int  NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE cars (
     description text  NOT NULL,
     picture_path varchar(50)  NOT NULL,
     body_type varchar(50)  NOT NULL,
-    engine_capacity int  NOT NULL,
+    engine_capacity float  NOT NULL,
     fuel varchar(50)  NOT NULL,
     transmission varchar(30)  NOT NULL,
     city_fuel_consumption float(5,2)  NOT NULL,
@@ -30,6 +30,9 @@ CREATE TABLE cars (
     engine_power int  NOT NULL,
     mileage int NOT NULL,
     year int  NOT NULL,
+    price_per_hour float NOT NULL,
+    price_per_day float NOT NULL,
+    more_photo_dir varchar(50) NOT NULL,
     UNIQUE INDEX cars_ak_name (model),
     CONSTRAINT cars_pk PRIMARY KEY (id)
 );
@@ -73,7 +76,7 @@ CREATE TABLE users (
 );
 
 -- foreign keys
--- Reference: cars_brands (table: cars)
+-- Reference: cars_brands (table: carList.ejs)
 ALTER TABLE cars ADD CONSTRAINT cars_brands FOREIGN KEY cars_brands (brands_id)
     REFERENCES brands (id);
 
@@ -95,3 +98,11 @@ ALTER TABLE reviews ADD CONSTRAINT reviews_users FOREIGN KEY reviews_users (user
 
 -- End of file.
 
+-- alter table carList.ejs add column more_photo_dir varchar(50) NOT NULL;
+-- ALTER TABLE carList.ejs MODIFY COLUMN engine_capacity FLOAT;
+ -- INSERT VALUE
+ INSERT INTO brands (brand_name) VALUES ('Alfa Romeo');
+ INSERT INTO cars (brands_id, model, description, picture_path, body_type, engine_capacity, fuel, transmission, city_fuel_consumption, highway_fuel_consumption, status, number_of_seats, engine_power, mileage, year,price_per_hour,price_per_day)
+VALUES ((SELECT id FROM brands WHERE brand_name = 'Alfa Romeo'), 'Giulia Quadrifoglio', 'Alfa Romeo Giulia Quadrifoglio - это спортивный седан высокой производительности с двигателем V6 с двойным турбонаддувом объемом 2,9 литра, который развивает 505 лошадиных сил и 443 фунт-футов крутящего момента. Эта машина умеет ускоряться до 60 миль в час менее, чем за 4 секунды, а ее максимальная скорость составляет 191 миль в час. Она оснащена карбоновым капотом, крышей и задним спойлером, что снижает вес и повышает аэродинамические характеристики. Интерьер машины выполнен из высококачественных материалов и оснащен передовыми технологиями. Alfa Romeo Giulia Quadrifoglio - идеальный выбор для любителей скорости и стиля. Если вы хотите арендовать этот автомобиль, вы можете сделать это на нашем сайте по аренде машин.', 'Alfa Romeo Giulia Quadrifoglio.png', 'Sedan', 2891, 'Бензин', 'Автомат', 12.7, 5.7, 'Доступна', 5, 505, 10000, 2020,58.80 ,395.65);
+
+SELECT cars.id, brands.brand_name, mileage, model, description, picture_path, body_type, engine_capacity, fuel, transmission, city_fuel_consumption, highway_fuel_consumption, status, number_of_seats, engine_power, year, price_per_day, price_per_hour FROM cars inner join brands on brands.id = cars.brands_id;
