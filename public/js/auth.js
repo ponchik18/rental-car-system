@@ -15,6 +15,7 @@ modalClose.addEventListener("click", () => {
     modalOverlay.style.display = "none";
     modal.style.display = "none";
     clearForm();
+    document.querySelector('body').style.overflow = "auto";
 });
 
 window.onclick = function(event) {
@@ -45,6 +46,7 @@ function sendRequestAuth(event) {
     console.log(form);
     const formData = new FormData(form); // Get the form data
     console.log(formData);
+    const url = form.getAttribute('action');
     fetch(form.action, { // Send an AJAX request to the server
         method: form.method,
         body: JSON.stringify(Object.fromEntries(formData)),
@@ -57,8 +59,9 @@ function sendRequestAuth(event) {
             if(data.status===200)
                 location.reload();
             else{
-                document.querySelector('#message').textContent=data.message;
+                document.querySelector('#message').textContent = data.message;
                 clearForm();
+                console.log(document.querySelector('#message'))
                 document.querySelector('#overlay-message').style.display = 'block';
                 document.querySelector('#modal-message').style.display = 'block';
             }
@@ -71,6 +74,7 @@ const closeModalButton = document.querySelector('#close-modal-message');
 closeModalButton.addEventListener('click', function() {
     document.querySelector('#overlay-message').style.display = 'none';
     document.querySelector('#modal-message').style.display = 'none';
+
 
 });
 

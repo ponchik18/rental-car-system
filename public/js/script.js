@@ -126,3 +126,42 @@
 
 })(jQuery);
 
+function addReviews(event){
+    event.preventDefault(); // Prevent the form from submitting normally
+    const form = event.target;
+    console.log(form);
+    const formData = new FormData(form); // Get the form data
+    console.log(formData);
+    const url = form.getAttribute('action');
+    fetch(form.action, { // Send an AJAX request to the server
+        method: form.method,
+        body: JSON.stringify(Object.fromEntries(formData)),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            document.querySelector('#message').textContent = data.message;
+            document.querySelector('#comment').value='';
+            document.querySelector('#rating').selectedIndex=0;
+            document.querySelector('#overlay-message').style.display = 'block';
+            document.querySelector('#modal-message').style.display = 'block';
+            if (data.status===201){
+                const carousel = document.querySelector('.carousel-inner');
+                carousel.insertAdjacentHTML('beforeend', `<div class="carousel-item active">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${formData.get('review-name')}</h5>
+                                            <p class="card-text">${formData.get('rating')}</p>
+                                            <p class="card-text">${formData.get('comment')}</p>
+                                        </div>
+                                    </div>
+                                </div>`);
+            }
+        })
+        .catch(error => {
+            console.error(error); // Handle any errors that occur during the AJAX request
+        });
+}
+

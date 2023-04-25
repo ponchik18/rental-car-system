@@ -26,7 +26,7 @@ app.use(session({
 app.use(morgan('tiny'));
 
 //Routers
-app.use( homeRouter);
+app.use(homeRouter);
 app.use(detailRouter);
 app.use(carListRoute);
 app.use(bookingRouter);

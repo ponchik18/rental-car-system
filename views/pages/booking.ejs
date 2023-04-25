@@ -32,12 +32,54 @@
                 <div class="col-lg-6 mb-4">
                     <h4 class="mb-2"><%= car.price_per_day%> руб./день</h4>
                     <p><%= car.description%></p>
+
                 </div>
-            </div>
+                <div class="row pt-2">
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa fa-car text-primary mr-2"></i>
+                        <span><%= car.body_type%> </span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa fa-cogs text-primary mr-2"></i>
+                        <span><%= car.transmission%></span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa-solid fa-city text-primary mr-2"></i>
+                        <span><%= car.city_fuel_consumption%> км/литр</span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa fa-road text-primary mr-2"></i>
+                        <span><%= car.highway_fuel_consumption%> км/литр</span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa-solid fa-calendar-days text-primary mr-2"></i>
+                        <span>Год: <%= car.year%></span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa-solid fa-gas-pump text-primary mr-2"></i>
+                        <span><%= car.fuel%></span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fa-solid fa-person text-primary mr-2"></i>
+                        <span><%= car.number_of_seats%></span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fas fa-tachometer-alt text-primary mr-2"></i>
+                        <span>Пробег: <%=car.mileage%> км</span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fas fa-cogs text-primary mr-2"></i>
+                        <span>Объём двигателя: <%=car.engine_capacity%> л.</span>
+                    </div>
+                    <div class="col-md-4 col-6 mb-2">
+                        <i class="fas fa-cogs text-primary mr-2"></i>
+                        <span>Мощность: <%=car.engine_power%> л.с.</span>
+                    </div>
+                </div>
+             </div>
         </div>
     </div>
     <!-- Detail End -->
-
 
     <!-- Car Booking Start -->
     <div class="container-fluid pb-5">
@@ -149,6 +191,86 @@
     </div>
     <!-- Car Booking End -->
 
+    <% if(isAuthenticated){ %>
+        <div class="container">
+            <h2>Leave a review</h2>
+            <form action="/addReviews" method="post" onsubmit="addReviews(event)">
+                <input type="hidden" name="user_id" value="<%= user.id%>">
+                <input type="hidden" name="cars_id" value="<%= car.id%>">
+                <div class="mb-3">
+                    <label for="review-name" class="form-label">Полное имя:</label>
+                    <input type="text" class="form-control" id="review-name" value="<%= user.fullname%>" readonly name="review-name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="review-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="review-email" readonly value="<%= user.email%>" name="review-email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Рейтинг:</label>
+                    <select class="form-control" name="rating" id="rating">
+                        <option value="" selected disabled>Выберите рейтинг</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Ваш отзыв</label>
+                    <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Оценить</button>
+            </form>
+        </div>
+        <% if(reviews.length !== 0){ %>
+            <div class="container-fluid pt-5">
+                <div class="container pt-5 pb-3">
+                    <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <% reviews.forEach((rew, index)=>{%>
+                                <div class="carousel-item <%= index===0 ? 'active':''%>">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= rew.fullname%></h5>
+                                            <p class="card-text">Рейтинг: <%= rew.rating%></p>
+                                            <p class="card-text"><%= rew.comment%></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= rew.fullname%></h5>
+                                            <p class="card-text">Рейтинг: <%= rew.rating%></p>
+                                            <p class="card-text"><%= rew.comment%></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= rew.fullname%></h5>
+                                            <p class="card-text">Рейтинг: <%= rew.rating%></p>
+                                            <p class="card-text"><%= rew.comment%></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% });%>
+                        </div>
+                        <button class="carousel-control-prev bg-secondary" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden" ><i class="fa-solid fa-arrow-left-to-line"></i></span>
+                        </button>
+                        <button class="carousel-control-next bg-secondary" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden"><i class="fa-solid fa-arrow-right-to-line"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <%}%>
+    <%}%>
 
 
     <%- include('../partials/footer.ejs') %>
@@ -156,7 +278,7 @@
     <%- include('../partials/authorization.ejs') %>
 
 
-
+    <script src="/js/mycarousel.js"></script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

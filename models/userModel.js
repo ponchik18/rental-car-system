@@ -14,7 +14,7 @@ User.getUser = (userData,callback )=>{
     connection.query(queryForGetUser, [userData.email], callback);
 }
 
-User.getUserById = (userDate, callback)=>{
+User.getUserById = (userData, callback)=>{
     const queryForGetUser = 'SELECT id, email, password, role, fullname, birthday, phone, address, driving_experience, avatar_image_path FROM users WHERE id=?';
     connection.query(queryForGetUser, [userData.id], callback);
 }
