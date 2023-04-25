@@ -62,7 +62,11 @@
                             <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                         </div>
                     </div>
-                    <a href="/auth" id="modal-btn" class="nav-item nav-link">Авторизация</a>
+                    <% if(isAuthenticated){ %>
+                        <a href="/auth/logout" id="log-out" onclick="logOut(event)" class="nav-item nav-link">Выход из учётной записи</a>
+                    <% } else { %>
+                        <a href="/auth" onclick="openAuthModal(event)" id="modal-btn" class="nav-item nav-link">Авторизация</a>
+                    <% } %>
                 </div>
             </div>
         </nav>

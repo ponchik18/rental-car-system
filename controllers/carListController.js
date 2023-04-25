@@ -8,8 +8,8 @@ exports.renderCarList = (req, res)=>{
             res.status(500).json({error: 'Error creating user'});
         }
         else{
-            console.log(results);
-            res.render('../views/pages/carList', {results});
+            let isAuthenticated = !!req.session.userId;
+            res.render('../views/pages/carList', {results:results, isAuthenticated:isAuthenticated});
         }
     });
 }

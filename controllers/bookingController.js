@@ -9,7 +9,8 @@ exports.renderBooking = (req,res)=>{
             res.status(500).json({error: 'Error creating user'});
         }
         else{
-            res.render('../views/pages/booking', {car:results[0]});
+            let isAuthenticated = !!req.session.userId;
+            res.render('../views/pages/booking', {car:results[0],isAuthenticated:isAuthenticated});
         }
     });
 }

@@ -327,5 +327,5 @@
     color: white;
     background-color: transparent;
     cursor: pointer;
-    z-index: 9999999; /* добавьте это свойство */
+    z-index: 100000; /* добавьте это свойство */
 }

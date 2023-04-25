@@ -65,13 +65,12 @@ CREATE TABLE users (
     email varchar(50)  NOT NULL,
     password varchar(120)  NOT NULL,
     role varchar(20)  NOT NULL,
-    firstname varchar(30)  NOT NULL,
-    lastname varchar(30)  NOT NULL,
+    fullname varchar(90)  NOT NULL,
     birthday date  NULL,
     phone varchar(20)  NULL,
     address varchar(100)  NULL,
     driving_experience int  NULL,
-    avatar_image_path int  NOT NULL,
+    avatar_image_path VARCHAR(255) NULL,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
@@ -100,6 +99,8 @@ ALTER TABLE reviews ADD CONSTRAINT reviews_users FOREIGN KEY reviews_users (user
 
 -- alter table carList.ejs add column more_photo_dir varchar(50) NOT NULL;
 -- ALTER TABLE carList.ejs MODIFY COLUMN engine_capacity FLOAT;
+-- ALTER TABLE users ALTER COLUMN avatar_image_path VARCHAR(255) NULL;
+
  -- INSERT VALUE
  INSERT INTO brands (brand_name) VALUES ('Alfa Romeo');
  INSERT INTO cars (brands_id, model, description, picture_path, body_type, engine_capacity, fuel, transmission, city_fuel_consumption, highway_fuel_consumption, status, number_of_seats, engine_power, mileage, year,price_per_hour,price_per_day)

@@ -9,7 +9,9 @@ exports.renderHome = (req,res)=>{
         }
         else{
             console.log(results);
-            res.render('../views/pages/index', {results});
+            let isAuthenticated = !!req.session.userId;
+            console.log(isAuthenticated);
+            res.render('../views/pages/index', {results:results, isAuthenticated:isAuthenticated});
         }
     });
 }

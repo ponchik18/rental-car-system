@@ -8,6 +8,8 @@ const homeRouter = require('./routes/homeRouter');
 const detailRouter = require('./routes/detailRouter');
 const carListRoute = require('./routes/carListRouter');
 const bookingRouter = require('./routes/bookingRouter');
+const authRouter = require('./routes/authRouter');
+
 const app = express();
 
 //Middleware
@@ -28,5 +30,6 @@ app.use( homeRouter);
 app.use(detailRouter);
 app.use(carListRoute);
 app.use(bookingRouter);
+app.use(authRouter);
 
 app.listen(5050);
