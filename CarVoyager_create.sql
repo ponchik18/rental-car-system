@@ -42,10 +42,12 @@ CREATE TABLE rentals (
     id int  NOT NULL AUTO_INCREMENT,
     cars_id int  NOT NULL,
     users_id int  NOT NULL,
-    pickup_date int  NOT NULL,
-    return_date int  NOT NULL,
+    pickup_date datetime  NOT NULL,
+    return_date datetime  NOT NULL,
     total_price float(10,2)  NOT NULL,
     extra_rent int  NOT NULL,
+    request text NULL,
+    `status` varchar(30) default 'Подтверждёна',
     CONSTRAINT rentals_pk PRIMARY KEY (id)
 );
 
