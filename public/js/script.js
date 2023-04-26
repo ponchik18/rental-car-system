@@ -181,7 +181,7 @@ function makeRental(event){
                 document.getElementById('request').value = '';
                 document.getElementById('count_day').value = '';
                 document.getElementById('totalPrice').textContent = '0 руб.';
-                document.getElementById('returnDateValue').textContent = '';
+                document.getElementById('returnDate').textContent = '';
             }
         })
         .catch(error => {
@@ -190,9 +190,41 @@ function makeRental(event){
 }
 
 function createMessage(data){
+    console.log(data.message);
     document.querySelector('#message').textContent = data.message;
     document.querySelector('#comment').value='';
     document.querySelector('#rating').selectedIndex=0;
     document.querySelector('#overlay-message').style.display = 'block';
     document.querySelector('#modal-message').style.display = 'block';
+}
+
+
+function cancelRental(event){
+    event.preventDefault(); // Prevent the form from submitting normally
+    const form = event.target;
+    console.log(form);
+    const formData = new FormData(form); // Get the form data
+    console.log(formData);
+    const url = form.getAttribute('action');
+    fetch(form.action, { // Send an AJAX request to the server
+        method: form.method,
+        body: JSON.stringify(Object.fromEntries(formData)),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            document.querySelector('#message').textContent = data.message;
+            document.querySelector('#overlay-message').style.display = 'block';
+            document.querySelector('#modal-message').style.display = 'block';
+            if(data.status === 201) {
+                const form = event.target;
+                form.parentNode.parentNode.querySelector('.status-type').textContent='Отменена';
+                form.remove();
+            }
+        })
+        .catch(error => {
+            console.error(error); // Handle any errors that occur during the AJAX request
+        });
 }

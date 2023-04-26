@@ -9,6 +9,7 @@ const detailRouter = require('./routes/detailRouter');
 const carListRoute = require('./routes/carListRouter');
 const bookingRouter = require('./routes/bookingRouter');
 const authRouter = require('./routes/authRouter');
+const rentalRouter = require('./routes/rentalRouters');
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use(detailRouter);
 app.use(carListRoute);
 app.use(bookingRouter);
 app.use(authRouter);
+app.use(rentalRouter);
 
 app.listen(5050);

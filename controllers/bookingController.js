@@ -55,6 +55,9 @@ exports.createRental = (req,res)=>{
         extra_rent: 0,
         request: req.body.request
     }
+    if(req.body.phone!==undefined){
+        User.updatePhone({id:req.session.userId, phone:req.body.phone}, (err, result)=>{});
+    }
     Rental.checkAvailability(rentalData, (err, findRental)=>{
         if(findRental.length===0) {
             Rental.createRental(rentalData, (err, result) => {

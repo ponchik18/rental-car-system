@@ -47,7 +47,7 @@ CREATE TABLE rentals (
     total_price float(10,2)  NOT NULL,
     extra_rent int  NOT NULL,
     request text NULL,
-    `status` varchar(30) default 'Подтверждёна',
+    `status` varchar(30) default 'Подтверждена',
     CONSTRAINT rentals_pk PRIMARY KEY (id)
 );
 

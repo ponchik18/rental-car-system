@@ -8,8 +8,18 @@ Rental.createRental = (rentalData, callback)=>{
 }
 
 Rental.checkAvailability = (rentalData, callback)=>{
-    let queryRental = 'SELECT * FROM rentals WHERE ((pickup_date <= ?) AND (return_date >= ?))';
-    connection.query(queryRental,[rentalData.return_date, rentalData.pickup_date], callback);
+    let queryRental = 'SELECT * FROM rentals WHERE ((pickup_date <= ?) AND (return_date >= ?)) AND status<>?';
+    connection.query(queryRental,[rentalData.return_date, rentalData.pickup_date, 'Отменена'], callback);
+}
+
+Rental.changeStatus = (rentalData, callback)=>{
+    let queryRental = 'UPDATE rentals SET status=? WHERE id = ?';
+    connection.query(queryRental,[rentalData.status, rentalData.id], callback);
+}
+
+Rental.getUserRental =  (user_id, callback)=>{
+    const queryRental =  'SELECT rentals.cars_id, rentals.users_id, rentals.pickup_date, rentals.return_date, rentals.total_price, rentals.id, rentals.status, cars.model, brands.brand_name FROM rentals INNER JOIN cars on cars.id=rentals.cars_id INNER JOIN brands on brands.id=cars.brands_id WHERE users_id=?';
+    connection.query(queryRental, [user_id], callback);
 }
 
 module.exports = Rental;

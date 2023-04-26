@@ -18,5 +18,8 @@ User.getUserById = (userData, callback)=>{
     const queryForGetUser = 'SELECT id, email, password, role, fullname, birthday, phone, address, driving_experience, avatar_image_path FROM users WHERE id=?';
     connection.query(queryForGetUser, [userData.id], callback);
 }
-
+User.updatePhone = (userData, callback)=>{
+    const queryUpdatePhone='UPDATE users SET phone = ? WHERE id=?';
+    connection.query(queryUpdatePhone, [userData.phone, userData.id], callback);
+}
 module.exports = User;

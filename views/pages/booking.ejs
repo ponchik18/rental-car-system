@@ -92,7 +92,7 @@
                         <div class="mb-5">
                             <div class="row">
                                 <div class="col-12 form-group">
-                                    <input type="text" name="fullname" class="form-control p-4" value="<%=user.fullname%>" placeholder="First Name" readonly required="required">
+                                    <input type="text" name="fullname" class="form-control p-4" value="<%= user.fullname%>" placeholder="First Name" readonly required="required">
                                 </div>
                             </div>
                             <div class="row">
@@ -100,7 +100,11 @@
                                     <input type="email" name="email" class="form-control p-4" value="<%=user.email%>" placeholder="Your Email" readonly required="required">
                                 </div>
                                 <div class="col-6 form-group">
-                                    <input type="text" name="phone" class="form-control p-4" placeholder="Mobile Number" required="required">
+                                    <% if(user.phone){%>
+                                    <input type="text" name="phone" class="form-control p-4" value="<%=user.phone%>" readonly placeholder="Mobile Number" required="required">
+                                        <%}else {%>
+                                        <input type="text" name="phone" class="form-control p-4" placeholder="Mobile Number" required="required">
+                                    <%}%>
                                 </div>
                             </div>
                         </div>

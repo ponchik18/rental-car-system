@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/title.ejs') %>
+</head>
+
+<body>
+    <%- include('../partials/header.ejs') %>
+
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header">
+        <h1 class="display-3 text-uppercase text-white mb-3">My Order</h1>
+        <div class="d-inline-flex text-white">
+            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
+            <h6 class="text-body m-0 px-3">/</h6>
+            <h6 class="text-uppercase text-body m-0">My Order</h6>
+        </div>
+    </div>
+    <!-- Page Header Start -->
+
+
+    <!-- Rent A Car Start -->
+    <div class="container-fluid">
+        <div class="container pt-5 pb-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Название машины</th>
+                    <th>Дата аренды</th>
+                    <th>Дата сдачи</th>
+                    <th>Цена за аренду</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% rentals.forEach(function(rental) { %>
+                    <tr>
+                        <td><a href="/booking/<%= rental.cars_id %>"><%= rental.brand_name%> <%= rental.model %></a></td>
+                        <td><%= rental.pickup_date.toLocaleString() %></td>
+                        <td><%= rental.return_date.toLocaleString() %></td>
+                        <td><%= rental.total_price %> руб.</td>
+                        <td class="status-type"><%= rental.status %></td>
+                        <td>
+                            <% if(rental.status === 'Подтверждена'){%>
+                            <form action="/rental/change-status" method="POST" onsubmit="cancelRental(event)">
+                                <input type="hidden" name="rental_id" value="<%= rental.id %>">
+                                <input type="hidden" name="status" value="Отменена">
+                                <button type="submit" class="btn btn-danger">Отменить</button>
+                            </form>
+                            <%}%>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Rent A Car End -->
+
+
+    <%- include('../partials/footer.ejs') %>
+    <%- include('../partials/message.ejs') %>
+    <%- include('../partials/authorization.ejs') %>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <!--<script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    -->
+    <!-- Template Javascript -->
+    <script src="/js/script.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
