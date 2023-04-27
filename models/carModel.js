@@ -18,6 +18,11 @@ Car.getAllCar = (callback) =>{
     connection.query(queryForAll, callback);
 }
 
+Car.update = (carData, callback)=>{
+    const updateQuery = 'UPDATE cars SET price_per_day = ?, description = ?, mileage = ? WHERE id=?';
+    connection.query(updateQuery,[carData.price_per_day, carData.description, carData.mileage, carData.id], callback);
+}
+
 
 Car.getCarByID = (id, callback)=>{
     let queryForCar = 'SELECT cars.id, brands.brand_name, mileage, model, description, picture_path, body_type, engine_capacity, fuel, transmission, city_fuel_consumption, highway_fuel_consumption, status, number_of_seats, engine_power, year, price_per_day, more_photo_path FROM cars inner join brands on brands.id = cars.brands_id where cars.id = ?';

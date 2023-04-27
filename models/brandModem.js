@@ -3,8 +3,8 @@ const connection = require('../config/database');
 const Brand = {};
 
 Brand.create = (brand_name,callback )=>{
-    let queryCreate = 'INSERT INTO brands (brand_name) VALUES (brand_name)';
-    connection.query(queryCreate, callback);
+    let queryCreate = 'INSERT INTO brands (brand_name) VALUES (?)';
+    connection.query(queryCreate,[brand_name], callback);
 }
 
 Brand.getAllBrand = (callback) =>{

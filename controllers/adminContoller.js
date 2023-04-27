@@ -17,6 +17,35 @@ exports.renderAdmin = (req,res)=>{
         });
     });
 }
+exports.getCar = (req, res)=>{
+    Car.getCarByID(req.params.id,(err, car)=>{
+        res.send(car[0]);
+    })
+}
+
+exports.updateCar = (req, res)=>{
+    const carData ={
+        id: req.params.id,
+        price_per_day:req.body.edit_price,
+        description: req.body.edit_description,
+        mileage: req.body.edit_mileage
+    }
+    Car.update(carData,(err, car)=>{
+        if (err) {
+            console.error(err);
+            res.status(500).json({
+                status:500,
+                message: 'Ошибка изменение машины!'
+            });
+        }
+        else {
+            res.status(201).json({
+                status: 201,
+                message: 'Информация о машине успешно изменена!'
+            });
+        }
+    })
+}
 
 exports.updateCarStatus = (req, res)=>{
     const carData = {
@@ -88,4 +117,24 @@ exports.addNewCar = (req, res) => {
                     }
                 });
         });
+}
+
+exports.addNewBrand = (req, res)=>{
+    Brand.create(req.body.new_brand_name, (err, result)=>{
+        if (err) {
+            console.error(err);
+            res.status(500).json({
+                status:500,
+                message: 'Ошибка изменение машины!'
+            });
+        }
+        else {
+            res.status(201).json({
+                status: 201,
+                message: 'Информация о машине успешно изменена!',
+                id: result.insertId,
+                brand_name: req.body.new_brand_name
+            });
+        }
+    })
 }

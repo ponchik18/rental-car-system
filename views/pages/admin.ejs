@@ -83,7 +83,7 @@
                             </select> </td><!-- сделать в виде выпадающего списка-->
                         <td>
 
-                            <button type="submit" class="btn btn-danger">Редактировать</button>
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editCar" data-car-id="<%=car.id%>"><i class="fa fa-pen"></i></button>
                         </td>
                     </tr>
                 <% }) %>
@@ -101,7 +101,7 @@
                     <th>Марка</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="brandsTable">
                 <% brands.forEach(function(brand) { %>
                     <tr>
                         <td><%= brand.id %></td>
@@ -109,6 +109,7 @@
                 <% }) %>
                 </tbody>
             </table>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBrandModal">Добавить новую марку</button>
         </div>
         <div class="tab-pane fade" id="tab3" style="overflow: auto">
             <h3>Список всех аренд</h3>
@@ -186,7 +187,7 @@
     </div>
 </div>
 <!-- Модальное окно -->
-<div class="modal fade" id="addCar" tabindex="-1" aria-labelledby="carModalLabel" aria-hidden="true">
+<div class="modal fade" id="addCar" tabindex="-1" aria-labelledby="editCarLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -194,7 +195,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="/admin/addNewCar" method="post" id="addNewCar" onsubmit="sentRequestForAdd()" enctype="multipart/form-data">
+                <form action="/admin/addNewCar" method="post" id="addNewCar" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="brands_id" class="form-label">Марка</label>
                         <select class="form-select" id="brands_id" name="brands_id" required>
@@ -300,6 +301,60 @@
                     <div class="mb-3">
                         <label for="description" class="form-label">Описание машины</label>
                         <textarea class="form-control"  name="description" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"  id="editCarLabel">Редактирование машины</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="editCarForm">
+                    <div class="form-group">
+                        <label for="edit_price">Цена</label>
+                        <input type="number" min="0.01" class="form-control" id="edit_price" name="edit_price" step="0.01" placeholder="Введите новую цену">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_mileage" >Пробег</label>
+                        <input type="number" min="1" class="form-control" id="edit_mileage" name="edit_mileage"  placeholder="Введите новое значения поля пробег">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_description">Описание</label>
+                        <textarea class="form-control" id="edit_description" rows="3" name="edit_description" placeholder="Введите новое описание"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="edit-car-btn">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog" aria-labelledby="addBrandModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBrandModalLabel">Добавить марку</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addBrandForm">
+                    <div class="form-group">
+                        <label for="new_brand_name">Название марки</label>
+                        <input type="text" class="form-control" id="new_brand_name" name="new_brand_name" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Добавить</button>
                 </form>
