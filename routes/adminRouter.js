@@ -11,5 +11,6 @@ adminRouter.post('/admin/addNewCar',upload.fields([{ name: 'cover', maxCount:1 }
 adminRouter.get('/admin/get-car/:id', admin.getCar);
 adminRouter.post('/admin/update/car/:id', admin.updateCar);
 adminRouter.post('/admin/addNewBrand', admin.addNewBrand);
+adminRouter.post('/admin/updateRentalStatus', admin.updateRentalStatus);
 
 module.exports = adminRouter;

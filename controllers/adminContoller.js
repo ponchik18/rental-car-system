@@ -138,3 +138,26 @@ exports.addNewBrand = (req, res)=>{
         }
     })
 }
+
+exports.updateRentalStatus=(req,res)=>{
+    const rentalData = {
+        id: req.body.id,
+        status: req.body.status
+    }
+    console.log(rentalData);
+    Rental.changeStatus(rentalData, (err, result)=>{
+        if (err) {
+            console.error(err);
+            res.status(500).json({
+                status:500,
+                message: 'Ошибка изменение статуса!'
+            });
+        }
+        else {
+            res.status(201).json({
+                status: 201,
+                message: 'Статус успешно изменён!'
+            });
+        }
+    })
+}

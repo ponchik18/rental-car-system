@@ -108,3 +108,28 @@ $('#addBrandForm').submit(function(event) {
         }
     });
 });
+
+
+function changeRentalStatus(event, rental_id){
+    let selectedOption = event.target.value;
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: rental_id, status: selectedOption})
+    };
+    fetch('/admin/updateRentalStatus', options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}

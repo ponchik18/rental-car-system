@@ -57,7 +57,10 @@ function sendRequestAuth(event) {
         .then(response => response.json()) // Parse the response as JSON
         .then(data => {
             if(data.status===200)
-                location.reload();
+                if(data.isAdmin){
+                    window.location.href=data.redirect;
+                }
+                else location.reload();
             else{
                 document.querySelector('#message').textContent = data.message;
                 clearForm();
@@ -86,7 +89,7 @@ function logOut(event){
         .then(response =>response.json())
         .then(data => {
             console.log(data);
-            location.reload();
+            window.location.href=data.redirectPage;
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);

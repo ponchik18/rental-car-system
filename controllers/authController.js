@@ -37,9 +37,12 @@ exports.enterUser =  (req,res)=>{
         } else {
             req.session.userId = results[0].id;
             req.session.userRole = results[0].role;
+
             res.status(200).send({
                 status:200,
-                message: 'Вход в систему завершён успешно'
+                message: 'Вход в систему завершён успешно',
+                isAdmin: req.session.userRole==='admin',
+                redirect:'/admin'
             });
         }
     });
@@ -49,6 +52,7 @@ exports.logout=(req, res) => {
     req.session.destroy();
     res.status(201).json({
         status:201,
-        message: 'Вы успешно зарегистрированы!'
+        message: 'Вы успешно зарегистрированы!',
+        redirectPage: '/'
     });
 }
