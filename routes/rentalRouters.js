@@ -1,9 +1,9 @@
 const express = require('express');
 const rental = require('../controllers/rentalController');
 
-const rentalRoute = express.Router();
+const rentalRouter = express.Router();
 
-rentalRoute.get('/rental', rental.renderRental);
-rentalRoute.post('/rental/change-status', rental.changeStatus);
+rentalRouter.get('/rental', rental.renderRental);
+rentalRouter.post('/rental/change-status', rental.changeStatus);
 
-module.exports = rentalRoute;
+module.exports = rentalRouter;

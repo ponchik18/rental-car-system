@@ -313,3 +313,15 @@ h6,
     background: linear-gradient(rgba(28, 30, 50, .9), rgba(28, 30, 50, .9)), url(../img/bg-banner.jpg);
     background-attachment: fixed;
 }
+#addCar .modal-dialog {
+    max-width: 800px;
+}
+
+#addCar .modal-body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.modal-open {
+    overflow: hidden;
+}

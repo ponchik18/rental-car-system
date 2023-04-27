@@ -22,4 +22,9 @@ Rental.getUserRental =  (user_id, callback)=>{
     connection.query(queryRental, [user_id], callback);
 }
 
+Rental.getAllRental = (callback)=>{
+    const queryRental =  'SELECT rentals.cars_id, rentals.users_id, rentals.pickup_date, rentals.return_date, rentals.total_price, rentals.id, rentals.status,rentals.request, cars.model, brands.brand_name, users.email FROM rentals INNER JOIN cars on cars.id=rentals.cars_id INNER JOIN users on users.id=rentals.users_id INNER JOIN brands on brands.id=cars.brands_id';
+    connection.query(queryRental, callback);
+}
+
 module.exports = Rental;

@@ -1,8 +1,8 @@
 const express = require('express');
 const carList = require('../controllers/carListController');
 
-const carListRoute = express.Router();
+const carListRouter = express.Router();
 
-carListRoute.get('/carlist',carList.renderCarList);
+carListRouter.get('/carlist',carList.renderCarList);
 
-module.exports = carListRoute;
+module.exports = carListRouter;

@@ -6,10 +6,11 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const homeRouter = require('./routes/homeRouter');
 const detailRouter = require('./routes/detailRouter');
-const carListRoute = require('./routes/carListRouter');
+const carListRouter = require('./routes/carListRouter');
 const bookingRouter = require('./routes/bookingRouter');
 const authRouter = require('./routes/authRouter');
 const rentalRouter = require('./routes/rentalRouters');
+const adminRouter = require('./routes/adminRouter');
 
 const app = express();
 
@@ -29,9 +30,10 @@ app.use(morgan('tiny'));
 //Routers
 app.use(homeRouter);
 app.use(detailRouter);
-app.use(carListRoute);
+app.use(carListRouter);
 app.use(bookingRouter);
 app.use(authRouter);
 app.use(rentalRouter);
+app.use(adminRouter);
 
 app.listen(5050);

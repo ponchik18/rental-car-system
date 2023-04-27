@@ -1,8 +1,8 @@
 const express = require('express');
 const detail = require('../controllers/detailController');
 
-const detailRoute = express.Router();
+const detailRouter = express.Router();
 
-detailRoute.get('/detail/:id',detail.renderDetail);
+detailRouter.get('/detail/:id',detail.renderDetail);
 
-module.exports = detailRoute;
+module.exports = detailRouter;

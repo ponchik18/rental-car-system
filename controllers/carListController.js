@@ -1,7 +1,7 @@
 const Car = require("../models/carModel");
 
 exports.renderCarList = (req, res)=>{
-    Car.getAllCar(false, (error, results)=>{
+    Car.getAllAvailableCar(false, (error, results)=>{
 
         if (error) {
             console.log('Error in reading carList.ejs: ', error);

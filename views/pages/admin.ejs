@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <%- include('../partials/title.ejs') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+
+    <!-- JavaScript-файлы Bootstrap 5 (jQuery и Popper.js должны быть подключены перед Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+</head>
+<style type="text/css">
+
+    .nav-tabs .nav-link {
+        color: #666;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .nav-tabs .nav-link.active {
+        background-color: #f1f1f1;
+        color: #333;
+        border-color: #ddd;
+        border-bottom: none;
+    }
+    .tab-content {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+    }
+</style>
+<body>
+
+<div class="container">
+    <h1>Страница администратора</h1>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#tab1">Машины</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tab2">Марки автомобилей</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tab3">Аренды</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tab4">Пользователи</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab1" style="overflow: auto">
+            <h3>Список машин</h3>
+
+            <table class="table" >
+                <thead>
+                <tr>
+                    <th>Название машины</th>
+                    <th>Тип кузова</th>
+                    <th>Цена за день аренды</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% cars.forEach(function(car) { %>
+                    <tr>
+                        <td><a href="/booking/<%= car.id %>"><%= car.brand_name%> <%= car.model %></a></td>
+                        <td><%= car.body_type %></td>
+                        <td><%= car.price_per_day %> руб.</td>
+                        <td>    <select class="form-control" oninput="changeCarStatus(event, <%=car.id%>)" class="statusCarSelect">
+                                <%if(car.status==='Доступна'){ %>
+                                    <option value="Доступна" selected >Доступна</option>
+                                    <option value="Арендована" >Арендована</option>
+                                    <option value="В ремонте">В ремонте</option>
+                                <% }else if(car.status==='Арендована') {%>
+                                        <option value="Доступна" >Доступна</option>
+                                        <option value="Арендована" selected >Арендована</option>
+                                        <option value="В ремонте">В ремонте</option>
+                                    <% }else {%>
+                                        <option value="Доступна" >Доступна</option>
+                                        <option value="Арендована" >Арендована</option>
+                                        <option value="В ремонте" selected>В ремонте</option>
+                                <%}%>
+                            </select> </td><!-- сделать в виде выпадающего списка-->
+                        <td>
+
+                            <button type="submit" class="btn btn-danger">Редактировать</button>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-danger" data-target="#addCar" data-toggle="modal" >Добавить машину </button>
+        </div>
+        <div class="tab-pane fade" id="tab2" style="overflow: auto">
+            <h3>Список машин</h3>
+
+            <table class="table" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Марка</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% brands.forEach(function(brand) { %>
+                    <tr>
+                        <td><%= brand.id %></td>
+                        <td><%= brand.brand_name %></td>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="tab3" style="overflow: auto">
+            <h3>Список всех аренд</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Название машины</th>
+                    <th>Дата аренды</th>
+                    <th>Дата сдачи</th>
+                    <th>Цена за аренду</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% rentals.forEach(function(rental) { %>
+                    <tr>
+                        <td><%= rental.email%></td>
+                        <td><a href="/booking/<%= rental.cars_id %>"><%= rental.brand_name%> <%= rental.model %></a></td>
+                        <td><%= rental.pickup_date.toLocaleString() %></td>
+                        <td><%= rental.return_date.toLocaleString() %></td>
+                        <td><%= rental.total_price %> руб.</td>
+                        <td class="status-type"><%= rental.status %></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onclick="showRequest('<%= rental.request%>') " data-target="#requestModal" data-toggle="modal" >Доп. сведения </button><!--показать доп информацию по заказу -->
+                        </td>
+
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="tab4" style="overflow: auto">
+            <h3>Список всех пользователей</h3>
+            <table class="table" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Полное имя</th>
+                    <th>Телефон</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% users.forEach(function(user) { %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.fullname %></td>
+                    <td><%= user.phone %></td>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<%- include('../partials/message.ejs') %>
+<%- include('../partials/authorization.ejs') %>
+
+<div class="modal" id="requestModal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <h5 class="modal-title">Предпочтения по аренде</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Тело модального окна -->
+            <div class="modal-body">
+                <textarea class="form-control" readonly rows="3" id="request"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно -->
+<div class="modal fade" id="addCar" tabindex="-1" aria-labelledby="carModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="carModalLabel">Добавить машину</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/addNewCar" method="post" id="addNewCar" onsubmit="sentRequestForAdd()" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="brands_id" class="form-label">Марка</label>
+                        <select class="form-select" id="brands_id" name="brands_id" required>
+                            <option value="" selected disabled>Выберите марку</option>
+                            <% brands.forEach(function(brand) { %>
+                            <option value="<%=brand.id%>"><%= brand.brand_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="model" class="form-label">Модель</label>
+                        <input type="text" class="form-control" name="model" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carCover" class="form-label">Фото для карточки</label>
+                        <input type="file" class="form-control" id="carCover" name="cover" accept="image/jpeg, image/png, image/gif, image/bmp, image/svg+xml" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="booking_page" class="form-label">Фото для страницы заказа</label>
+                        <input type="file" class="form-control" id="booking_page" name="booking_page" accept="image/jpeg, image/png, image/gif, image/bmp, image/svg+xml" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transmission" class="form-label">Коробка передач</label>
+                        <select class="form-select" name="transmission" required>
+                            <option value="" selected disabled>Выберите категорию</option>
+                            <option value="Автомат">Автомат</option>
+                            <option value="Механика">Механика</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="body_type" class="form-label">Выберите тип кузова</label>
+                        <select class="form-select" name="body_type" required>
+                            <option value="" selected disabled>Выберите возрастные ограничения</option>
+                            <option value="Седан">Седан</option>
+                            <option value="Купе">Купе</option>
+                            <option value="Лимузин">Лимузин</option>
+                            <option value="Пикап">Пикап</option>
+                            <option value="Фаэтон">Фаэтон</option>
+                            <option value="Ландо">Ландо</option>
+                            <option value="Брогам">Брогам</option>
+                            <option value="Пикап">Пикап</option>
+                            <option value="Лимузин">Лимузин</option>
+                            <option value="Внедорожник">Внедорожник</option>
+                            <option value="Фургон">Фургон</option>
+                            <option value="Микровэн">Микровэн</option>
+                            <option value="Компактвэн">Компактвэн</option>
+                            <option value="Хэтчбек">Хэтчбек</option>
+                            <option value="Универсал">Универсал</option>
+                            <option value="Лифтбек">Лифтбек</option>
+                            <option value="Минивэн">Минивэн</option>
+                            <option value="Кабриолет">Кабриолет</option>
+                            <option value="Родстер">Родстер</option>
+                            <option value="Тарга">Тарга</option>
+                            <option value="Кроссовер">Кроссовер</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="number_of_seats" class="form-label">Количество пассажиров</label>
+                        <input type="number" class="form-control" min="1" name="number_of_seats" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price_per_day" class="form-label">Цена аренды за день</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Br</span>
+                            <input type="number" min="0.01" class="form-control" name="price_per_day" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fuel" class="form-label">Топливо</label>
+                        <select class="form-select" name="fuel" required>
+                            <option value="" selected disabled>Выберите тип топливо</option>
+                            <option value="Бензин">Бензин</option>
+                            <option value="Дизель">Дизель</option>
+                            <option value="Газ">Газ</option>
+                            <option value="Электро">Электро</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="engine_capacity" class="form-label">Объём двигателя</label>
+                        <input type="number" min="0.1" class="form-control" name="engine_capacity" step="0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="engine_power" class="form-label">Мощность двигателя</label>
+                        <input type="number" class="form-control" min="1" name="engine_power" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mileage" class="form-label">Пробег</label>
+                        <input type="number" class="form-control" min="0" name="mileage" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="city_fuel_consumption" class="form-label">Расход топлива в городе</label>
+                        <input type="number" min="0.1" class="form-control" name="city_fuel_consumption" step="0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="highway_fuel_consumption" class="form-label">Расход топлива за городом</label>
+                        <input type="number" min="0.1" class="form-control" name="highway_fuel_consumption" step="0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Год выпуска</label>
+                        <input type="number" class="form-control" min="1950" max="2023"  name="year" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание машины</label>
+                        <textarea class="form-control"  name="description" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!--    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>-->
+
+<!-- Template Javascript -->
+<script src="/js/admin.js"></script>
+<script src="/js/script.js"></script>
+</body>
+
+</html>

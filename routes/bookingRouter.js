@@ -1,10 +1,10 @@
 const express = require('express');
 const booking = require('../controllers/bookingController');
 
-const bookingRoute = express.Router();
+const bookingRouter = express.Router();
 
-bookingRoute.get('/booking/:id',booking.renderBooking);
-bookingRoute.post('/addReviews',booking.leaveReview);
-bookingRoute.post('/create/rental',booking.createRental);
+bookingRouter.get('/booking/:id',booking.renderBooking);
+bookingRouter.post('/addReviews',booking.leaveReview);
+bookingRouter.post('/create/rental',booking.createRental);
 
-module.exports = bookingRoute;
+module.exports = bookingRouter;
