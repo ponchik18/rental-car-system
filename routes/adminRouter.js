@@ -2,8 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const admin = require('../controllers/adminContoller');
 const path = require("path");
+const {  requireRole } = require('../middleware/authMiddleware');
 const upload = multer();
 const adminRouter = express.Router();
+
+adminRouter.use( requireRole('admin'));
 
 adminRouter.get('/admin',admin.renderAdmin);
 adminRouter.post('/admin/updateCarStatus', admin.updateCarStatus);

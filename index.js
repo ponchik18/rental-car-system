@@ -5,7 +5,6 @@ const debug = require('debug');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const homeRouter = require('./routes/homeRouter');
-const detailRouter = require('./routes/detailRouter');
 const carListRouter = require('./routes/carListRouter');
 const bookingRouter = require('./routes/bookingRouter');
 const authRouter = require('./routes/authRouter');
@@ -29,7 +28,6 @@ app.use(morgan('tiny'));
 
 //Routers
 app.use(homeRouter);
-app.use(detailRouter);
 app.use(carListRouter);
 app.use(bookingRouter);
 app.use(authRouter);

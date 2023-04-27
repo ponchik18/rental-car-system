@@ -11,11 +11,11 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header">
-        <h1 class="display-3 text-uppercase text-white mb-3">Car Booking</h1>
+        <h1 class="display-3 text-uppercase text-white mb-3">Информация о машине</h1>
         <div class="d-inline-flex text-white">
-            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
+            <h6 class="text-uppercase m-0"><a class="text-white" href="/">Главная</a></h6>
             <h6 class="text-body m-0 px-3">/</h6>
-            <h6 class="text-uppercase text-body m-0">Car Booking</h6>
+            <h6 class="text-uppercase text-body m-0">Информация о машине</h6>
         </div>
     </div>
     <!-- Page Header Start -->
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-md-4 col-6 mb-2">
                         <i class="fa-solid fa-person text-primary mr-2"></i>
-                        <span><%= car.number_of_seats%></span>
+                        <span>Количество мест: <%= car.number_of_seats%></span>
                     </div>
                     <div class="col-md-4 col-6 mb-2">
                         <i class="fas fa-tachometer-alt text-primary mr-2"></i>
@@ -88,7 +88,7 @@
             <form action="/create/rental" method="POST" onsubmit="makeRental(event)">
                 <div class="row">
                     <div class="col-lg-7">
-                        <h2 class="mb-4">Personal Detail</h2>
+                        <h2 class="mb-4">Персональные данные</h2>
                         <div class="mb-5">
                             <div class="row">
                                 <div class="col-12 form-group">
@@ -101,14 +101,14 @@
                                 </div>
                                 <div class="col-6 form-group">
                                     <% if(user.phone){%>
-                                    <input type="text" name="phone" class="form-control p-4" value="<%=user.phone%>" readonly placeholder="Mobile Number" required="required">
+                                    <input type="text" name="phone" class="form-control p-4" value="<%=user.phone%>" readonly placeholder="Мобильный телефон" required="required">
                                         <%}else {%>
-                                        <input type="text" name="phone" class="form-control p-4" placeholder="Mobile Number" required="required">
+                                        <input type="text" name="phone" class="form-control p-4" placeholder="Мобильный телефон" required="required">
                                     <%}%>
                                 </div>
                             </div>
                         </div>
-                        <h2 class="mb-4">Booking Detail</h2>
+                        <h2 class="mb-4">Детали аренды</h2>
                         <div class="mb-5">
                             <div class="row">
                                 <div class="col-6 form-group">
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control py-3 px-4" id="request" name="request" rows="3" placeholder="Special Request"></textarea>
+                                <textarea class="form-control py-3 px-4" id="request" name="request" rows="3" placeholder="Ваши пожелания"></textarea>
                             </div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
 
     <% if(isAuthenticated){ %>
         <div class="container">
-            <h2>Leave a review</h2>
+            <h2>Оставьте ваш отзыв</h2>
             <form action="/addReviews" method="post" onsubmit="addReviews(event)">
                 <input type="hidden" name="user_id" value="<%= user.id%>">
                 <input type="hidden" name="cars_id" value="<%= car.id%>">
@@ -225,10 +225,12 @@
     <%- include('../partials/authorization.ejs') %>
 
 
-    <script src="/js/mycarousel.js"></script>
+
     <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/mycarousel.js"></script>
 <!--    <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>-->
@@ -277,7 +279,6 @@
         const endOfDayHour = endOfDay.getHours();
         myTimeInput.max = `${endOfDayHour}:00`;
     </script>
-
 </body>
 
 </html>

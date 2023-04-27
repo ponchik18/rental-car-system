@@ -8,8 +8,8 @@ Rental.createRental = (rentalData, callback)=>{
 }
 
 Rental.checkAvailability = (rentalData, callback)=>{
-    let queryRental = 'SELECT * FROM rentals WHERE ((pickup_date <= ?) AND (return_date >= ?)) AND status<>?';
-    connection.query(queryRental,[rentalData.return_date, rentalData.pickup_date, 'Отменена'], callback);
+    let queryRental = 'SELECT * FROM rentals WHERE ((pickup_date <= ?) AND (return_date >= ?)) AND status<>? AND cars_id=?';
+    connection.query(queryRental,[rentalData.return_date, rentalData.pickup_date, 'Отменена', rentalData.cars_id], callback);
 }
 
 Rental.changeStatus = (rentalData, callback)=>{

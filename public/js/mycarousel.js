@@ -2,7 +2,7 @@ function reviewCarouselRoutine() {
     var multipleCardCarousel = document.querySelector(
         "#carouselExampleControls"
     );
-    if (window.matchMedia("(min-width: 768px)").matches) {
+    if (window.matchMedia("(min-width: 700px)").matches) {
         var carousel = new bootstrap.Carousel(multipleCardCarousel, {
             interval: false,
         });

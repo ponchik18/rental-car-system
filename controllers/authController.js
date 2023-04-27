@@ -37,6 +37,7 @@ exports.enterUser =  (req,res)=>{
         } else {
             req.session.userId = results[0].id;
             req.session.userRole = results[0].role;
+            console.log('Your role is '+ req.session.userRole);
 
             res.status(200).send({
                 status:200,
