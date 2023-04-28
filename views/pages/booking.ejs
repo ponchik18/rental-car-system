@@ -45,11 +45,11 @@
                     </div>
                     <div class="col-md-4 col-6 mb-2">
                         <i class="fa-solid fa-city text-primary mr-2"></i>
-                        <span><%= car.city_fuel_consumption%> км/литр</span>
+                        <span><%= car.city_fuel_consumption%> л/100 км</span>
                     </div>
                     <div class="col-md-4 col-6 mb-2">
                         <i class="fa fa-road text-primary mr-2"></i>
-                        <span><%= car.highway_fuel_consumption%> км/литр</span>
+                        <span><%= car.highway_fuel_consumption%> л/100 км</span>
                     </div>
                     <div class="col-md-4 col-6 mb-2">
                         <i class="fa-solid fa-calendar-days text-primary mr-2"></i>
@@ -272,12 +272,7 @@
         const hours = (now.getHours()+1).toString().padStart(2, '0');
         myTimeInput.defaultValue = `${hours}:${'00'}`;
         const currentHour = now.getHours();
-        myTimeInput.min = `${currentHour}:00`;
-
-        const endOfDay = new Date();
-        endOfDay.setHours(23, 59, 0, 0);
-        const endOfDayHour = endOfDay.getHours();
-        myTimeInput.max = `${endOfDayHour}:00`;
+     
     </script>
 </body>
 
