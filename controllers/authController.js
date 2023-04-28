@@ -7,7 +7,6 @@ exports.createUser = async (req,res)=>{
         email: req.body.signemail,
         password:req.body.signpass
     };
-    console.log(req.body);
     await User.create(userData, (err, result) => {
         if (err) {
             console.error(err);
@@ -37,7 +36,6 @@ exports.enterUser =  (req,res)=>{
         } else {
             req.session.userId = results[0].id;
             req.session.userRole = results[0].role;
-            console.log('Your role is '+ req.session.userRole);
 
             res.status(200).send({
                 status:200,

@@ -8,9 +8,7 @@ exports.renderHome = (req,res)=>{
             res.status(500).json({error: 'Error creating user'});
         }
         else{
-            console.log(results);
             let isAuthenticated = !!req.session.userId;
-            console.log(isAuthenticated);
             res.render('../views/pages/index', {results:results, isAuthenticated:isAuthenticated});
         }
     });

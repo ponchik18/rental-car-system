@@ -27,4 +27,11 @@ Rental.getAllRental = (callback)=>{
     connection.query(queryRental, callback);
 }
 
+Rental.getTotalPrice = (callback)=>{
+    const queryRental = ` SELECT SUM(total_price) AS total_rental_sum
+        FROM rentals
+        WHERE status = 'Завершена';`
+    connection.query(queryRental, callback);
+}
+
 module.exports = Rental;

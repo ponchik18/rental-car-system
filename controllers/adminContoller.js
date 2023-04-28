@@ -11,7 +11,9 @@ exports.renderAdmin = (req,res)=>{
         Brand.getAllBrand((err, brands)=>{
             Rental.getAllRental((err, rentals)=>{
                 User.getAllUser((err, users)=>{
-                    res.render('../views/pages/admin', {cars:cars, brands:brands, rentals:rentals, users: users});
+                    Rental.getTotalPrice((err, rentalPrices)=>{
+                        res.render('../views/pages/admin', {cars:cars, brands:brands, rentals:rentals, users: users, total_rental_sum:rentalPrices[0].total_rental_sum});
+                    });
                 });
             });
         });

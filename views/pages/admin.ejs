@@ -58,8 +58,10 @@
                 <tr>
                     <th>Название машины</th>
                     <th>Тип кузова</th>
-                    <th>Цена за день аренды</th>
+                    <th>Цена за день<br> аренды</th>
                     <th>Статус</th>
+                    <th>Количество<br> завершённых аренд</th>
+                    <th>Заработано</th>
                     <th>Действия</th>
                 </tr>
                 </thead>
@@ -83,7 +85,20 @@
                                         <option value="Арендована" >Арендована</option>
                                         <option value="В ремонте" selected>В ремонте</option>
                                 <%}%>
-                            </select> </td><!-- сделать в виде выпадающего списка-->
+                            </select> </td>
+                        <td ><%if(car.rental_count===''){%>
+                                   0
+                            <%}else{%>
+                                <%=car.rental_count%>
+                            <%}%>
+                        </td>
+                        <td>
+                            <%if(car.total_price_sum===null){%>
+                                0 руб.
+                            <%}else{%>
+                                <%=car.total_price_sum%> руб.
+                            <%}%>
+                        </td>
                         <td>
 
                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editCar" data-car-id="<%=car.id%>"><i class="fa fa-pen"></i></button>
@@ -115,7 +130,14 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBrandModal">Добавить новую марку</button>
         </div>
         <div class="tab-pane fade" id="tab3" style="overflow: auto">
-            <h3>Список всех аренд</h3>
+            <div class="row">
+                <div class="col">
+                    <h3>Список всех аренд</h3>
+                </div>
+                <div class="col text-right">
+                    <h5>Итого заработано на завершённых арендах: <%= total_rental_sum %> руб.</h5>
+                </div>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
