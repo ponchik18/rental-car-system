@@ -7,10 +7,13 @@ Car.create = (carData,callback )=>{
     connection.query(queryInsert, [carData.brands_id, carData.model, carData.description, carData.picture_path, carData.body_type, carData.engine_capacity, carData.fuel, carData.transmission, carData.city_fuel_consumption, carData.highway_fuel_consumption, carData.number_of_seats, carData.engine_power, carData.mileage, carData.year, carData.price_per_day, carData.more_photo_path], callback);
 }
 
-Car.getAllAvailableCar = (limit,callback) =>{
+Car.getAllAvailableCar = (limit, queryCars,callback) =>{
     let queryForAll = 'SELECT cars.id, brands.brand_name, mileage, model, description, picture_path, body_type, engine_capacity, fuel, transmission, city_fuel_consumption, highway_fuel_consumption, status, number_of_seats, engine_power, year, price_per_day, more_photo_path  FROM cars inner join brands on brands.id = cars.brands_id WHERE status=?';
     if(limit===true)
         queryForAll+=' LIMIT 6';
+    if(queryCars !== undefined){
+        queryForAll+=" "+getSQLQueryCar(queryCars);
+    }
     connection.query(queryForAll,['Доступна'], callback);
 }
 Car.getAllCar = (callback) =>{
@@ -36,6 +39,22 @@ Car.getCarByID = (id, callback)=>{
 Car.updateStatus =(carData, callback)=>{
     let queryForUpdate = 'UPDATE cars SET status = ? WHERE id = ?';
     connection.query(queryForUpdate, [carData.status,carData.id],callback);
+}
+
+function getSQLQueryCar(queryCars){
+    queryCars.trim();
+    const words = queryCars.split(" ");
+    let resLine="";
+    for(let i=0; i<words.length; i++){
+        if(i===0)
+            resLine+="AND( ";
+        else
+            resLine+=" OR "
+        resLine+= `brands.brand_name LIKE '%${words[i]}%' OR model LIKE '%${words[i]}%'`;
+        if(i+1===words.length)
+            resLine+=" )";
+    }
+    return resLine;
 }
 
 module.exports = Car;

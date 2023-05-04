@@ -16,15 +16,8 @@
         }
         toggleNavbarMethod();
         $(window).resize(toggleNavbarMethod);
-    });
-
-
-    // Date and time picker
-    $('.date').datetimepicker({
-        format: 'L'
-    });
-    $('.time').datetimepicker({
-        format: 'LT'
+        updateSearch();
+        setSortSelectValue();
     });
 
 
@@ -227,4 +220,71 @@ function cancelRental(event){
         .catch(error => {
             console.error(error); // Handle any errors that occur during the AJAX request
         });
+}
+
+function updateSearch() {
+    const input = document.getElementById('carSearch');
+    const paramName = 'search_car';
+
+    // Get the current URL and split it into base URL and existing query parameters
+    const url = window.location.href;
+    const [baseUrl, queryParams] = url.split('?');
+
+    // Create a new URLSearchParams object with existing query parameters
+    const searchParams = new URLSearchParams(queryParams);
+
+    // Set the value of the input field as the value of the 'param' query parameter
+    input.value=searchParams.get(paramName);
+
+    // Create the new URL with the updated query parameters
+    const newUrl = `${baseUrl}?${searchParams.toString()}`;
+
+    // Update the URL without refreshing the page
+    history.replaceState(null, '', newUrl);
+}
+
+function sortCar(event){
+    const paramName="sortValue";
+    const paramValue = event.target.value;
+    const currentUrl = window.location.href;
+
+    // Создаем объект URL с текущим URL
+    const url = new URL(currentUrl);
+
+    // Устанавливаем новый параметр в URL
+    url.searchParams.set(paramName, paramValue);
+
+    // Перезагружаем страницу с обновленным URL
+    window.location.href = url.toString();
+}
+
+function setSortSelectValue(){
+    const selectSort = document.getElementById('sortSelect');
+    const input = document.getElementById('carSearch');
+    const paramName = 'sortValue';
+
+    // Get the current URL and split it into base URL and existing query parameters
+    const url = window.location.href;
+    const [baseUrl, queryParams] = url.split('?');
+
+    // Create a new URLSearchParams object with existing query parameters
+    const params = new URLSearchParams(queryParams);
+    const sortParams=params.get(paramName);
+    if(sortParams===undefined){
+        selectSort.value='none';
+    }
+    else if(sortParams === 'price_desc'){
+        selectSort.value='price_desc';
+    }
+    else if(sortParams === 'price_asc'){
+        selectSort.value='price_asc';
+    }
+    else if(sortParams === 'name'){
+        selectSort.value='name';
+    }
+    else if(sortParams === 'mileage'){
+        selectSort.value='mileage';
+    }
+    // Set the value of the input field as the value of the 'param' query parameter
+
 }

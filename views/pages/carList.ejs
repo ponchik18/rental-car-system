@@ -25,8 +25,22 @@
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
             <h1 class="display-4 text-uppercase text-center mb-5">Найди свою машину</h1>
-            <div class="row">
-                <% results.forEach((res)=>{%>
+            <div class="form-group">
+                <label for="sortByPrice">Сортировка:</label>
+                <select class="form-control" onchange="sortCar(event)" id="sortSelect">
+                    <option value="none" selected>Без сортировки</option>
+                    <option value="price_desc">Сначала дешёвые</option>
+                    <option value="price_asc">Сначала дорогие</option>
+                    <option value="name">По названию</option>
+                    <option value="mileage">По пробегу</option>
+                </select>
+            </div>
+            <div class="row" style="">
+                <% if(results.length===0) {%>
+                    <h4 class="text-uppercase mb-4" style=" margin-left: auto; margin-right: auto;  height: 70px">По вашему запросу машин не найдено!</h4>
+                <% }else{%>
+
+                 <%results.forEach((res)=>{%>
                     <div class="col-lg-4 col-md-6 mb-2">
                         <div class="rent-item mb-4">
                             <img class="img-fluid mb-4" src="/img/car_image/<%= res.picture_path %>" alt="">
@@ -48,7 +62,7 @@
                             <a class="btn btn-primary px-3" href="/booking/<%= res.id%>"><%= res.price_per_day.toFixed(2)%> руб. за день</a>
                         </div>
                     </div>
-                <% }); %>
+                <% });} %>
             </div>
         </div>
     </div>
